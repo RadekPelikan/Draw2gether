@@ -7,7 +7,7 @@ function setup() {
 
   socket = io("http://127.0.0.1:3000");
 
-  socket.on("pencil", pencil);
+  socket.on("tool-pencil", pencil);
 }
 
 function draw() {
@@ -20,7 +20,7 @@ function draw() {
       pY: pmouseY,
       size: brushSize,
     };
-    socket.emit("pencil", data);
+    socket.emit("tool-pencil", data);
   }
   
 }
