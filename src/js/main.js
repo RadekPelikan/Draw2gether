@@ -8,6 +8,8 @@ function setup() {
   socket = io("http://127.0.0.1:3000");
 
   socket.on("tool-pencil", pencil);
+  socket.on("tool-eraser", eraser);
+  socket.on("tool-bucket", bucket);
 }
 
 function draw() {
@@ -38,6 +40,13 @@ const bucket = (data) => {
 const pencil = (data) => {
   const {x, y, pX, pY, size} = data
   drawLine(x, y, pX, pY, size);
+}
+
+const eraser = (data) => {
+  stroke(255)
+  const {x, y, pX, pY, size} = data
+  drawLine(x, y, pX, pY, size);
+  stroke(0)
 }
 
 const drawLine = (x, y, pX, pY, size) => {
