@@ -1,7 +1,8 @@
 import Layer from "./layer.js";
+import { curCanvas, socket } from "./main.js";
 
 export default class Canvas {
-  static idCounter = 0;
+  static idCounter = 0; // TODO: Make counting on server (per room)
   name;
   layers = [];
   bgColor = 240;
@@ -19,11 +20,19 @@ export default class Canvas {
     });
   }
 
-  changeBgColor(color) {
-    // if (!color || (Array. isArray(color) && color.length > 1 && color.length != 3)) {
-    //   return { done: false };
-    // }
-    p5.background(color);
-    // return { done: true };
+  #changeBgColor() {
+    console.log(this.bgColor);
+    p5.background(this.bgColor);
+  }
+
+  changeBgColorFromServer(data) {
+    curCanvas.bgColor = data.color;
+    curCanvas.#changeBgColor();
+  }
+
+  changeBgColorFromClient(color) {
+    this.bgColor = color;
+    socket.emit("canvas-changeBg", { color: this.bgColor });
+    this.#changeBgColor();
   }
 }

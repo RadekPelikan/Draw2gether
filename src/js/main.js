@@ -1,21 +1,19 @@
 import Canvas from "./canvas.js";
 import Tools from "./tools.js";
-const socket = io("http://127.0.0.1:3000");
-window.socket = socket;
+import { socketFn } from "./socketOn.js";
 
-let curCanvas = new Canvas();
+export const socket = io("http://127.0.0.1:3000");
+export const curCanvas = new Canvas();
 Tools.canvas = curCanvas;
 
 const p5tools = (p5) => {
-  window.p5 = p5;
+  window.p5 = p5; // This needs to stay, cuz I dont know how to export this p5 variable
 
   p5.setup = () => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     p5.background(curCanvas.bgColor);
 
-    for (const [key, value] of Object.entries(Tools.all)) {
-      socket.on(`tool-${key}`, value.func);
-    }
+    socketFn.forEach((fn) => fn());
   };
 
   p5.draw = () => {
@@ -31,10 +29,10 @@ const p5tools = (p5) => {
       Tools.current.func(data);
       socket.emit(`tool-${Tools.current.name}`, data);
     }
-    socket.on("canvas-changeBg", curCanvas.changeBgColor);
   };
 
   p5.mouseWheel = () => {
+    // TODO: Make it so you cant go to -1 or 0, cuz you still can SOMEHOW
     const change = Math.floor(-event.delta * 0.01);
     Tools.brushSize += Tools.brushSize <= 1 && change < 0 ? 0 : change;
   };
@@ -71,6 +69,7 @@ new p5(p5tools);
 const thisModule = { Tools };
 window.myModule = thisModule;
 */
-window.Tools = Tools;
-window.curCanvas = curCanvas;
-window.Canvas = Canvas;
+// window.socket = socket; // TODO: Delete all window variables
+// window.Tools = Tools;
+// window.curCanvas = curCanvas;
+// window.Canvas = Canvas;
