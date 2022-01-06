@@ -1,4 +1,5 @@
 # year_project-Socket.io-client [PAGE](https://radekpelikan.github.io/year_project-Socket.io-client/)
+<a href="https://radekpelikan.github.io/year_project-Socket.io-client/" target="_blank">Hello, world!</a>
 
 ### Year project for school
 
