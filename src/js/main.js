@@ -1,6 +1,7 @@
 import Canvas from "./canvas.js";
 import Tools from "./tools.js";
 const socket = io("http://127.0.0.1:3000");
+window.socket = socket;
 
 let curCanvas = new Canvas();
 Tools.canvas = curCanvas;
@@ -30,6 +31,7 @@ const p5tools = (p5) => {
       Tools.current.func(data);
       socket.emit(`tool-${Tools.current.name}`, data);
     }
+    socket.on("canvas-changeBg", curCanvas.changeBgColor);
   };
 
   p5.mouseWheel = () => {
