@@ -1,5 +1,5 @@
 import Layer from "./layer.js";
-import { curCanvas, socket } from "./main.js";
+import { curCanvas, socket } from "./p5.js";
 
 export default class Canvas {
   static idCounter = 0; // TODO: Make counting on server (per room)

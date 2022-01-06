@@ -1,7 +1,7 @@
 {
   "name": "draw-s-client",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/scss/style.scss",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,10 +17,8 @@
     "url": "https://github.com/RadekPelikan/year_project-Socket.io-client/issues"
   },
   "homepage": "https://github.com/RadekPelikan/year_project-Socket.io-client#readme",
-  "dependencies": {
+  "devDependencies": {
     "bulma": "^0.9.3",
-    "p5": "^1.4.0",
-    "sass": "^1.44.0",
-    "socket.io-client": "^4.4.0"
+    "node-sass": "^7.0.1"
   }
 }

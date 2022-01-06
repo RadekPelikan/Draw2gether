@@ -1,3 +1,6 @@
+@charset "utf-8";
+@import "../../node_modules/bulma/bulma.sass";
+
 html, body {
   margin: 0;
   padding: 0;
@@ -6,4 +9,9 @@ html, body {
 
 canvas {
   display: block;
+}
+
+#defaultCanvas0 {
+  width: auto !important;
+  // aspect-ratio: 2
 }

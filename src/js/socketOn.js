@@ -1,4 +1,4 @@
-import { socket, curCanvas } from "./main.js";
+import { socket, curCanvas } from "./p5.js";
 import Tools from "./tools.js";
 
 const tools = () => {
