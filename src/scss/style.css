@@ -2,7 +2,16 @@
   text-align: center;
 }
 
-.main-canvas::-webkit-scrollbar {
+.main-canvas-wrapper {
+  overflow: scroll;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.main-canvas-wrapper::-webkit-scrollbar {
   display: none;
 }
 

@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
 import Canvas from "../canvas/Canvas";
 
 const CanvasDisplay = () => {
   const arr = new Array(4).fill();
   const canvasRefs = useRef([]);
+  const mainCanvasRef = useRef(null);
   const [active, setActive] = useState(0);
   const [color, setColor] = useState("#F0F0F0");
 
@@ -30,8 +32,10 @@ const CanvasDisplay = () => {
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
-      <div className="main-canvas" >
-        <Canvas width={700} height={300}></Canvas>
+      <div className="main-canvas-wrapper">
+        <ScrollContainer className="container" buttons={[1]}>
+          <Canvas width={700} height={300}></Canvas>
+        </ScrollContainer>
       </div>
 
       {/* {arr.map((item, i) => {
