@@ -30,8 +30,11 @@ const CanvasDisplay = () => {
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
+      <div className="main-canvas" >
+        <Canvas width={700} height={300}></Canvas>
+      </div>
 
-      {arr.map((item, i) => {
+      {/* {arr.map((item, i) => {
         return (
           <div className="canvas-wrapper" key={i}>
             <button
@@ -50,7 +53,7 @@ const CanvasDisplay = () => {
             />
           </div>
         );
-      })}
+      })} */}
 
       <button onClick={handleChangeBg} style={buttonStyle}>
         Change color
