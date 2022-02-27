@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Grid, Stack } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 
 const HelpMenu = () => {
   const helpArr = [
