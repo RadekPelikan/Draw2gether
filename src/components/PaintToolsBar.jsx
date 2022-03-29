@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import ColorPicker from './ColorPicker'
 
 const PaintToolsBar = () => {
   return (
-    <div>PaintTools</div>
-  )
-}
+    <>
+      <div>PaintTools</div>
+      <ColorPicker
+        color={color}
+        setColor={setColor}
+        handleChangeBg={handleChangeBg}
+      />
+    </>
+  );
+};
 
-export default PaintToolsBar
+export default PaintToolsBar;

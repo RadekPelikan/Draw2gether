@@ -1,70 +1,48 @@
-import React, { useRef, useState } from "react";
-import ScrollContainer from "react-indiana-drag-scroll";
-import { createReparentableSpace, Parent } from "react-reparenting";
-import Canvas from "../canvas/Canvas";
+import React, { forwardRef, useRef, useState } from "react";
+import ColorPicker from "../ColorPicker";
+import Canvas from "../Canvas";
 
-const CanvasDisplay = () => {
-  const canvasRef = useRef();
-  const [bgColor, setBgColor] = useState("#F0F0F0");
-  const { Reparentable, sendReparentableChild } = createReparentableSpace();
+const CanvasDisplay = ({color}) => {
+  const arr = new Array(1).fill();
+  const canvasRefs = useRef([]);
+  const [active, setActive] = useState(0);
 
-  const [parents, setParents] = useState({
-    A: ["c1", "c2"],
-    B: ["c3"],
-  });
-
-  // The Child components.
-  const children = {
-    parentA: parents.A.map((key) => (
-      <Canvas width={700} height={300} key={key} />
-    )),
-    parentB: parents.B.map((key) => (
-      <Canvas width={700} height={300} key={key} />
-    )),
+  const handleChangeBg = () => {
+    console.log(canvasRefs.current[active]);
+    canvasRefs.current[active].changeBg(color);
   };
 
-  // Parent instance refs.
-  const parentARef = useRef();
-  const parentBRef = useRef();
-
-  const parentA = parentARef.current;
-  const parentB = parentBRef.current;
-
-  const handleMoveChild = () => {
-    console.log("yes");
-    // before the Child ('c2') of 'parentA'.
-    sendReparentableChild("parentB", "parentA", 0, "c2");
-    // Send the Child ('c1') of 'parentA'
-    // in the first position of 'parentB'.
-    sendReparentableChild("parentA", "parentB", "c1", 0);
-
-    // Re-render the components with the changes.
-    // The transferred children won't be re-mounted.
+  const handleChangeCanvas = (event) => {
+    setActive(event.target.dataset.id);
   };
 
-  const changeColor = (e) => {
-    setBgColor(e.target.value);
-    console.log(parentARef);
-    parentARef.current.changeBg(bgColor);
+  const buttonStyle = {
+    margin: "1rem",
+    fontSize: "2em",
   };
 
   return (
     <>
-      <input
-        type="color"
-        id="head"
-        name="head"
-        value={bgColor}
-        onChange={(e) => changeColor(e)}
-      />
-
-      <button onClick={handleMoveChild}>Click me!</button>
-
-      <ScrollContainer className="container" buttons={[1]}>
-        <Reparentable id="parentA">{children.parentA}</Reparentable>
-      </ScrollContainer>
-      <h1>bruh</h1>
-      <Reparentable id="parentB">{children.parentB}</Reparentable>
+      {arr.map((item, i) => {
+        return (
+          <div className="canvas-wrapper" key={i}>
+            <button
+              onClick={handleChangeCanvas}
+              style={buttonStyle}
+              data-id={i}
+            >
+              Canvas{i}
+            </button>
+            <Canvas
+              width={700}
+              height={300}
+              ref={(element) => {
+                canvasRefs.current[i] = element;
+              }}
+            />
+          </div>
+        );
+      })}
     </>
   );
 };
