@@ -1,16 +1,18 @@
-import React, { forwardRef, useRef, useState } from "react";
-import ColorPicker from "../ColorPicker";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import Canvas from "../Canvas";
 
-const CanvasDisplay = ({color}) => {
+const CanvasDisplay = forwardRef(({color}, ref) => {
   const arr = new Array(1).fill();
   const canvasRefs = useRef([]);
   const [active, setActive] = useState(0);
 
-  const handleChangeBg = () => {
-    console.log(canvasRefs.current[active]);
-    canvasRefs.current[active].changeBg(color);
-  };
+  useImperativeHandle(ref, () => ({
+    handleChangeBg(color) {
+      color = [color.r, color.g, color.b]
+      console.log(canvasRefs.current[active]);
+      canvasRefs.current[active].changeBg(color);
+    },
+  }));
 
   const handleChangeCanvas = (event) => {
     setActive(event.target.dataset.id);
@@ -45,6 +47,6 @@ const CanvasDisplay = ({color}) => {
       })}
     </>
   );
-};
+});
 
 export default CanvasDisplay;

@@ -6,9 +6,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Routes>
+      {/* <Routes>
         <Route exact index element={CanvasPage}/>
-      </Routes>
+      </Routes> */}
       <CanvasPage/>
     </div>
   );
