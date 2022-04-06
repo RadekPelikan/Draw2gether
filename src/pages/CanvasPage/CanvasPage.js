@@ -6,10 +6,13 @@ import useKeypress from "react-use-keypress";
 import Canvas from "../../components/Canvas";
 
 const CanvasPage = () => {
+  const [layers, setLayers] = useState([]);
+  const [activeL, setActiveL] = useState(0);
   const [openHelp, setOpenHelp] = useState(false);
   const handleCloseHelp = () => setOpenHelp(false);
 
   const curCanvas = useRef(null);
+  const paintTools = useRef(null);
 
   useKeypress("F1", () => setOpenHelp(!openHelp));
   useKeypress("Escape", () => setOpenHelp(false));
@@ -28,10 +31,10 @@ const CanvasPage = () => {
       <Container>
         <Grid container>
           <Grid item className="paint-toolbar">
-            <PaintToolsBar curCanvas={curCanvas} />
+            <PaintToolsBar curCanvas={curCanvas} layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL} ref={paintTools} />
           </Grid>
           <Grid item xs className="canvas-display center">
-            <Canvas width={700} height={600} ref={curCanvas} />
+            <Canvas width={700} height={600} paintTools={paintTools} layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL} ref={curCanvas} />
           </Grid>
         </Grid>
       </Container>

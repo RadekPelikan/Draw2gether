@@ -6,12 +6,21 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { forwardRef, useState, useImperativeHandle } from "react";
 import ColorPicker from "./ColorPicker";
 
-const PaintToolsBar = ({ curCanvas }) => {
+const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setActiveL }, ref) => {
   const [color, setColor] = useState("#F0F0F0");
 
+  useImperativeHandle(ref, () => ({
+    setLayers(layers) {
+      setLayers(layers)
+    },
+  }));
+
+  const handleRadioChange = (event) => {
+    setActiveL(event.target.value);
+  };
 
   return (
     <>
@@ -49,20 +58,27 @@ const PaintToolsBar = ({ curCanvas }) => {
       >
         get Layers
       </Button>
+      <Button
+        variant="contained"
+        onClick={() => console.log(activeL)}
+        sx={{ width: 1 }}
+      >
+        get activeL
+      </Button>
 
       <FormControl>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue={1}
+          value={activeL}
           name="radio-buttons-group"
+          onChange={handleRadioChange}
         >
-          {curCanvas.current.getLayers().map((layer, index) => {
+          {layers.map((layer, index) => {
             return (
-              <FormControlLabel
+              <FormControlLabel key={index}
                 value={index}
-                control={<Radio />}
-                // label={layer.name}
-                label="bruh"
+                control={<Radio />} 
+                label={layer.name}
               />
             );
           })}
@@ -70,6 +86,6 @@ const PaintToolsBar = ({ curCanvas }) => {
       </FormControl>
     </>
   );
-};
+});
 
 export default PaintToolsBar;
