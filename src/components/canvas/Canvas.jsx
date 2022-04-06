@@ -5,12 +5,12 @@ import Layer from "./layer";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const Canvas = forwardRef(
-  ({ width, height, paintTools, layers, setLayers, activeL, setActiveL }, ref) => {
+  ({ width, height, layers, setLayers, activeL, setActiveL }, ref) => {
     width = width || 100;
     height = height || 100;
 
     const [background, setBackground] = useState(240);
-    const [p5, setP5] = useState("");
+    const [p5, setP5] = useState(null);
 
     useImperativeHandle(ref, () => ({
       changeBg(color) {
@@ -23,7 +23,7 @@ const Canvas = forwardRef(
       removeLayer(index) {
         if (layers.length === 0) return;
         index = index ?? layers.length - 1;
-        if (activeL == index && index != 0) setActiveL(--activeL)
+        if (activeL == index && index != 0) setActiveL(--activeL);
         const layer = layers[index].p5;
         layer.clear();
         layer.remove();
@@ -39,17 +39,16 @@ const Canvas = forwardRef(
       },
     }));
 
-    const createLayer = () => {
-      const newLayer = new Layer({ p5, width, height });
+    const createLayer = (p5l) => {
+      p5l = p5l || p5;
+      const newLayer = new Layer({ p5: p5l, width, height });
       setLayers([...layers, newLayer]);
     };
 
-    const setup = async (p5, canvasParentRef) => {
-      await setP5(p5);
+    const setup = (p5, canvasParentRef) => {
+      setP5(p5);
       p5.createCanvas(width, height).parent(canvasParentRef);
-      // Somehow create first layer after init
-      const newLayer = new Layer({ p5, width, height });
-      setLayers([...layers, newLayer]);
+      createLayer(p5);
     };
 
     const draw = () => {

@@ -6,18 +6,18 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import React, { forwardRef, useState, useImperativeHandle } from "react";
+import React from "react";
 import ColorPicker from "./ColorPicker";
 
-const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setActiveL }, ref) => {
-  const [color, setColor] = useState("#F0F0F0");
-
-  useImperativeHandle(ref, () => ({
-    setLayers(layers) {
-      setLayers(layers)
-    },
-  }));
-
+const PaintToolsBar = ({
+  curCanvas,
+  color,
+  setColor,
+  layers,
+  setLayers,
+  activeL,
+  setActiveL,
+}) => {
   const handleRadioChange = (event) => {
     setActiveL(event.target.value);
   };
@@ -39,6 +39,13 @@ const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setAc
       </Button>
       <Button
         variant="contained"
+        onClick={() => curCanvas.current.removeLayer(activeL)}
+        sx={{ width: 1 }}
+      >
+        remove current
+      </Button>
+      <Button
+        variant="contained"
         onClick={() => curCanvas.current.removeLayer()}
         sx={{ width: 1 }}
       >
@@ -50,13 +57,6 @@ const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setAc
         sx={{ width: 1 }}
       >
         add layer
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => console.log(curCanvas.current.getLayers())}
-        sx={{ width: 1 }}
-      >
-        get Layers
       </Button>
       <Button
         variant="contained"
@@ -75,9 +75,10 @@ const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setAc
         >
           {layers.map((layer, index) => {
             return (
-              <FormControlLabel key={index}
+              <FormControlLabel
+                key={index}
                 value={index}
-                control={<Radio />} 
+                control={<Radio />}
                 label={layer.name}
               />
             );
@@ -86,6 +87,6 @@ const PaintToolsBar = forwardRef(({ curCanvas, layers, setLayers, activeL, setAc
       </FormControl>
     </>
   );
-});
+};
 
 export default PaintToolsBar;

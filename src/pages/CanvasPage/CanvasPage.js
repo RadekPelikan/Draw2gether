@@ -6,13 +6,13 @@ import useKeypress from "react-use-keypress";
 import Canvas from "../../components/Canvas";
 
 const CanvasPage = () => {
+  const [color, setColor] = useState("#F0F0F0");
   const [layers, setLayers] = useState([]);
   const [activeL, setActiveL] = useState(0);
   const [openHelp, setOpenHelp] = useState(false);
   const handleCloseHelp = () => setOpenHelp(false);
 
   const curCanvas = useRef(null);
-  const paintTools = useRef(null);
 
   useKeypress("F1", () => setOpenHelp(!openHelp));
   useKeypress("Escape", () => setOpenHelp(false));
@@ -31,10 +31,27 @@ const CanvasPage = () => {
       <Container>
         <Grid container>
           <Grid item className="paint-toolbar">
-            <PaintToolsBar curCanvas={curCanvas} layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL} ref={paintTools} />
+            <PaintToolsBar
+              curCanvas={curCanvas}
+              color={color}
+              setColor={setColor}
+              layers={layers}
+              setLayers={setLayers}
+              activeL={activeL}
+              setActiveL={setActiveL}
+            />
           </Grid>
           <Grid item xs className="canvas-display center">
-            <Canvas width={700} height={600} paintTools={paintTools} layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL} ref={curCanvas} />
+            <Canvas
+              width={700}
+              height={600}
+              color={color}
+              layers={layers}
+              setLayers={setLayers}
+              activeL={activeL}
+              setActiveL={setActiveL}
+              ref={curCanvas}
+            />
           </Grid>
         </Grid>
       </Container>
