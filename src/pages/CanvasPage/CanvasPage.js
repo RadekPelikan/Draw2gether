@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import CanvasDisplay from "../../components/CanvasDisplay";
 import HelpMenu from "../../components/HelpMenu";
 import PaintToolsBar from "../../components/PaintToolsBar";
 import { Container, Grid, Modal, Stack } from "@mui/material";
 import useKeypress from "react-use-keypress";
+import Canvas from "../../components/Canvas";
 
 const CanvasPage = () => {
   const [openHelp, setOpenHelp] = useState(false);
@@ -31,7 +31,7 @@ const CanvasPage = () => {
             <PaintToolsBar curCanvas={curCanvas} />
           </Grid>
           <Grid item xs className="canvas-display center">
-            <CanvasDisplay ref={curCanvas} />
+            <Canvas width={700} height={600} ref={curCanvas} />
           </Grid>
         </Grid>
       </Container>

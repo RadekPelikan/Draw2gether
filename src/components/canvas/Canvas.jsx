@@ -2,6 +2,7 @@ import React, { forwardRef, useState, useImperativeHandle } from "react";
 import Sketch from "react-p5";
 import Tools from "./tools";
 import Layer from "./layer";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const Canvas = forwardRef(({ width, height }, ref) => {
   width = width || 100;
@@ -14,16 +15,18 @@ const Canvas = forwardRef(({ width, height }, ref) => {
 
   useImperativeHandle(ref, () => ({
     changeBg(color) {
+      color = [color.r, color.g, color.b];
       setBackground(color);
     },
     createLayer() {
       createLayer();
     },
     removeLayer(index) {
+      if (layers.length === 0) return;
       index = index ?? layers.length - 1;
-      p5.clear()
-      layers[index].clear();
-      layers[index].remove();
+      const layer = layers[index].p5
+      layer.clear();
+      layer.remove();
       layers.splice(index, 1);
     },
     getLayers() {
@@ -51,8 +54,8 @@ const Canvas = forwardRef(({ width, height }, ref) => {
 
   const draw = () => {
     p5.background(background);
-    if (layers.length === 0) return
-    const layer = layers[activeL];
+    if (layers.length === 0) return;
+    const layer = layers[activeL].p5
     if (p5.mouseIsPressed && p5.mouseButton === p5.LEFT) {
       const data = {
         p5: layer,
@@ -67,7 +70,10 @@ const Canvas = forwardRef(({ width, height }, ref) => {
     p5.image(layer, 0, 0);
   };
 
-  return <Sketch setup={setup} draw={draw} />;
+  return (
+    <ScrollContainer className="scroll-container center" buttons={[1]}>
+      <Sketch setup={setup} draw={draw} />
+    </ScrollContainer>);
 });
 
 export default Canvas;

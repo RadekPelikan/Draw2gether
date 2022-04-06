@@ -9,7 +9,6 @@ import Canvas from "../Canvas";
 
 const CanvasDisplay = forwardRef(({}, ref) => {
   const canvasRef = useRef(null);
-  const [active, setActive] = useState(0);
 
   useImperativeHandle(ref, () => ({
     handleChangeBg(color) {
