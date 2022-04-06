@@ -1,4 +1,4 @@
-export default class Tool {
+export default class Tools {
   static brushSize = 5;
 
   static drawLine({p5, x, y, pX, pY, size}) {
@@ -9,7 +9,7 @@ export default class Tool {
   static pencil(data) {
     const {p5} = data;
     p5.stroke(0);
-    Tool.drawLine(data);
+    Tools.drawLine(data);
   }
 
 }

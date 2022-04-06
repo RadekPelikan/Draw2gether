@@ -2,3 +2,22 @@
   text-align: center;
 }
 
+.paint-toolbar {
+  width: 225px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scroll-container {
+  width: 90%;
+  height: 80vh;
+}
+
+.canvas-display {
+  height: 100vh;
+  min-width: 0px;
+}
