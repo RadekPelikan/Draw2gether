@@ -38,4 +38,32 @@ code {
   height: 100vh;
   min-width: 0px;
 }
+
+.layers-list-card {
+  padding: 0.5em;
+  border: 2px black solid;
+  margin-top: 10px;
+}
+
+.layers-list-name {
+  margin: 0px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.layers-list-icon {
+  display: inline-block;
+  float: left;
+  font-size: auto;
+  position: relative;
+  -webkit-transform: translateY(10px);
+          transform: translateY(10px);
+  cursor: ns-resize;
+}
+
+.layers-list-selected {
+  background-color: #63f96b;
+}
 /*# sourceMappingURL=style.css.map */

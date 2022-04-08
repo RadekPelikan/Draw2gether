@@ -1,13 +1,9 @@
 import {
   Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
 } from "@mui/material";
 import React from "react";
 import ColorPicker from "./ColorPicker";
+import LayersContainer from './LayerList/LayersContainer';
 
 const PaintToolsBar = ({
   curCanvas,
@@ -18,9 +14,6 @@ const PaintToolsBar = ({
   activeL,
   setActiveL,
 }) => {
-  const handleRadioChange = (event) => {
-    setActiveL(event.target.value);
-  };
 
   return (
     <>
@@ -65,26 +58,14 @@ const PaintToolsBar = ({
       >
         get activeL
       </Button>
-
-      <FormControl>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          value={activeL}
-          name="radio-buttons-group"
-          onChange={handleRadioChange}
-        >
-          {layers.map((layer, index) => {
-            return (
-              <FormControlLabel
-                key={index}
-                value={index}
-                control={<Radio />}
-                label={layer.name}
-              />
-            );
-          })}
-        </RadioGroup>
-      </FormControl>
+      <Button
+        variant="contained"
+        onClick={() => console.log(curCanvas.current.getLayers())}
+        sx={{ width: 1 }}
+      >
+        get layers 
+      </Button>
+      <LayersContainer layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL}/>
     </>
   );
 };
