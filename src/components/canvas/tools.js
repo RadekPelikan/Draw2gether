@@ -7,8 +7,8 @@ export default class Tools {
   }
 
   static pencil(data) {
-    const {p5} = data;
-    p5.stroke(0);
+    const {p5, color} = data;
+    p5.stroke(color);
     Tools.drawLine(data);
   }
 

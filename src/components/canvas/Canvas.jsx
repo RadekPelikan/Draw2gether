@@ -5,7 +5,7 @@ import Layer from "./layer";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const Canvas = forwardRef(
-  ({ width, height, layers, setLayers, activeL, setActiveL }, ref) => {
+  ({ width, height, layers, setLayers, activeL, setActiveL, color }, ref) => {
     width = width || 100;
     height = height || 100;
 
@@ -58,6 +58,7 @@ const Canvas = forwardRef(
       if (p5.mouseIsPressed && p5.mouseButton === p5.LEFT) {
         const data = {
           p5: layer,
+          color: [color.r, color.g, color.b] || color,
           x: p5.mouseX,
           y: p5.mouseY,
           pX: p5.pmouseX,

@@ -51,20 +51,6 @@ const PaintToolsBar = ({
       >
         add layer
       </Button>
-      <Button
-        variant="contained"
-        onClick={() => console.log(activeL)}
-        sx={{ width: 1 }}
-      >
-        get activeL
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => console.log(curCanvas.current.getLayers())}
-        sx={{ width: 1 }}
-      >
-        get layers 
-      </Button>
       <LayersContainer layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL}/>
     </>
   );
