@@ -36,9 +36,9 @@ const Canvas = forwardRef(
       removeLayer(index) {
         if (layers.length === 0) return;
         index = index ?? layers.length - 1;
-        if (activeL == index && index != 0) setActiveL(--activeL);
+        if ((activeL == index || activeL == layers.length - 1) && activeL != 0)
+          setActiveL(--activeL);
         const layer = layers[index].p5;
-        layer.clear();
         layer.remove();
         const newLayers = layers.slice();
         newLayers.splice(index, 1);

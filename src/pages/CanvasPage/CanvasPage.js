@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HelpMenu from "../../components/HelpMenu";
 import PaintToolsBar from "../../components/PaintToolsBar";
 import { Container, Grid, Modal, Stack } from "@mui/material";
@@ -15,6 +15,13 @@ const CanvasPage = () => {
   const handleCloseHelp = () => setOpenHelp(false);
 
   const curCanvas = useRef(null);
+
+  useKeypress("p", () => setActiveTool("pencil"))
+  useKeypress("e", () => setActiveTool("eraser"))
+  useKeypress("b", () => setActiveTool("bucket"))
+
+  useKeypress("+", () => size < 100 && setSize(size + 5))
+  useKeypress("-", () => size > 5 && setSize(size - 5))
 
   useKeypress("F1", () => setOpenHelp(!openHelp));
   useKeypress("Escape", () => setOpenHelp(false));

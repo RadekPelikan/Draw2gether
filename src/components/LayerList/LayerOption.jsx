@@ -9,7 +9,12 @@ const LayerOption = ({
   activeL,
   setActiveL,
   index,
+  curCanvas,
 }) => {
+  const handleDelete = () => {
+    curCanvas.current.removeLayer(index);
+  };
+
   return (
     <div
       ref={preview}
@@ -18,10 +23,12 @@ const LayerOption = ({
         index === activeL ? "layers-list-selected" : ""
       }`}
       data-handler-id={handlerId}
-      onClick={() => setActiveL(index)}
     >
-      <i className="fa-solid fa-lg fa-bars layers-list-icon" ref={dragIcon}></i>
-      <p className="layers-list-name">{name}</p>
+      <i className="fa-solid fa-lg fa-bars drag" ref={dragIcon}></i>
+      <p className="layers-list-name" onClick={() => setActiveL(index)}>
+        {name}
+      </p>
+      <i className="fa-solid fa-trash-can trash" onClick={handleDelete}></i>
     </div>
   );
 };

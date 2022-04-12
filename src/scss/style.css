@@ -53,13 +53,29 @@ code {
           user-select: none;
 }
 
-.layers-list-icon {
-  display: inline-block;
-  float: left;
+.drag {
   position: relative;
   -webkit-transform: translateY(10px);
           transform: translateY(10px);
+  float: left;
   cursor: ns-resize;
+}
+
+.trash {
+  position: relative;
+  -webkit-transform: translateY(-25px);
+          transform: translateY(-25px);
+  float: right;
+  cursor: pointer;
+}
+
+.trash:hover {
+  padding: 3px;
+  border-radius: 10px;
+  background-color: #ff8e8e;
+  position: relative;
+  -webkit-transform: translate(3px, -28px);
+          transform: translate(3px, -28px);
 }
 
 .layers-list-selected {

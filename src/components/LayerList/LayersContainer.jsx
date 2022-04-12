@@ -5,7 +5,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import LayersItem from "./LayersItem";
 
-const LayersContainer = ({ layers, setLayers, activeL, setActiveL }) => {
+const LayersContainer = ({ layers, setLayers, activeL, setActiveL, curCanvas }) => {
   const moveCard = useCallback((dragIndex, hoverIndex) => {
     setLayers((prevCards) =>
       update(prevCards, {
@@ -29,6 +29,7 @@ const LayersContainer = ({ layers, setLayers, activeL, setActiveL }) => {
             activeL={activeL}
             setActiveL={setActiveL}
             moveCard={moveCard}
+            curCanvas={curCanvas}
           />
         ))}
       </div>

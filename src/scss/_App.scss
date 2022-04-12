@@ -33,12 +33,26 @@
   user-select: none;
 }
 
-.layers-list-icon {
-  display: inline-block;
-  float: left;
+.drag {
   position: relative;
   transform: translateY(10px);
+  float: left;
   cursor: ns-resize;
+}
+
+.trash {
+  position: relative;
+  transform: translateY(-25px);
+  float: right;
+  cursor: pointer;
+}
+
+.trash:hover {
+  padding: 3px;
+  border-radius: 10px;
+  background-color: #ff8e8e;
+  position: relative;
+  transform: translate(3px, -28px);
 }
 
 .layers-list-selected {
