@@ -1,9 +1,11 @@
 import {
   Button,
+  Slider
 } from "@mui/material";
 import React from "react";
 import ColorPicker from "./ColorPicker";
-import LayersContainer from './LayerList/LayersContainer';
+import LayersContainer from './LayerList';
+import ToolsContainer from "./ToolsList";
 
 const PaintToolsBar = ({
   curCanvas,
@@ -13,6 +15,10 @@ const PaintToolsBar = ({
   setLayers,
   activeL,
   setActiveL,
+  size,
+  setSize,
+  activeTool,
+  setActiveTool
 }) => {
 
   return (
@@ -23,6 +29,8 @@ const PaintToolsBar = ({
         setColor={setColor}
         curCanvas={curCanvas}
       />
+      <ToolsContainer activeTool={activeTool} setActiveTool={setActiveTool}/>
+      <Slider value={size} onChange={(event, value) => setSize(value)} min={1} max={100}/>
       <Button
         variant="contained"
         onClick={() => curCanvas.current.changeBg(color)}
@@ -50,6 +58,13 @@ const PaintToolsBar = ({
         sx={{ width: 1 }}
       >
         add layer
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => console.log(activeL)}
+        sx={{ width: 1 }}
+      >
+        get active l
       </Button>
       <LayersContainer layers={layers} setLayers={setLayers} activeL={activeL} setActiveL={setActiveL}/>
     </>

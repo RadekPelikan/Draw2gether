@@ -56,7 +56,6 @@ code {
 .layers-list-icon {
   display: inline-block;
   float: left;
-  font-size: auto;
   position: relative;
   -webkit-transform: translateY(10px);
           transform: translateY(10px);
@@ -65,5 +64,25 @@ code {
 
 .layers-list-selected {
   background-color: #63f96b;
+}
+
+.icons-list-icon {
+  display: inline-block;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.icons-list-icon:hover {
+  background-color: #c9c9c9;
+  cursor: pointer;
+}
+
+.icons-list-selected {
+  background-color: #d1ffba;
+}
+
+.icons-list-selected:hover {
+  background-color: #b9ff96;
 }
 /*# sourceMappingURL=style.css.map */

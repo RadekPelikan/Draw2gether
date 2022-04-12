@@ -5,7 +5,20 @@ import Layer from "./layer";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 const Canvas = forwardRef(
-  ({ width, height, layers, setLayers, activeL, setActiveL, color }, ref) => {
+  (
+    {
+      width,
+      height,
+      layers,
+      setLayers,
+      activeL,
+      setActiveL,
+      color,
+      size,
+      activeTool,
+    },
+    ref
+  ) => {
     width = width || 100;
     height = height || 100;
 
@@ -42,7 +55,9 @@ const Canvas = forwardRef(
     const createLayer = (p5l) => {
       p5l = p5l || p5;
       const newLayer = new Layer({ p5: p5l, width, height });
-      setLayers([...layers, newLayer]);
+      newLayer.p5.clear();
+      setLayers([newLayer, ...layers]);
+      layers.length && setActiveL(++activeL);
     };
 
     const setup = (p5, canvasParentRef) => {
@@ -51,23 +66,28 @@ const Canvas = forwardRef(
       createLayer(p5);
     };
 
-    const draw = () => {
+    const draw = (p5) => {
       p5.background(background);
       if (layers.length === 0) return;
+
       const layer = layers[activeL].p5;
+
       if (p5.mouseIsPressed && p5.mouseButton === p5.LEFT) {
         const data = {
           p5: layer,
           color: [color.r, color.g, color.b] || color,
+          size,
           x: p5.mouseX,
           y: p5.mouseY,
           pX: p5.pmouseX,
           pY: p5.pmouseY,
-          size: Tools.brushSize,
         };
-        Tools.pencil(data);
+        Tools[activeTool](data);
       }
-      layers.forEach((layer) => p5.image(layer.p5, 0, 0));
+      layers
+        .slice(0)
+        .reverse()
+        .forEach((layer) => p5.image(layer.p5, 0, 0));
     };
 
     return (

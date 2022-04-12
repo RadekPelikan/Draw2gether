@@ -1,15 +1,31 @@
-export default class Tools {
-  static brushSize = 5;
+const drawLine = ({ p5, x, y, pX, pY, size }) => {
+  p5.strokeWeight(size);
+  p5.line(x, y, pX, pY);
+};
 
-  static drawLine({p5, x, y, pX, pY, size}) {
-    p5.strokeWeight(size);
-    p5.line(x, y, pX, pY);
-  }
+export const ToolsIcons = {
+  pencil: "fa-paintbrush",
+  eraser: "fa-eraser",
+  bucket: "fa-fill-drip"
+};
 
-  static pencil(data) {
-    const {p5, color} = data;
+const Tools = {
+  pencil(data) {
+    const { p5, color } = data;
+    p5.noErase();
     p5.stroke(color);
-    Tools.drawLine(data);
-  }
+    drawLine(data);
+  },
 
-}
+  eraser(data) {
+    const { p5 } = data;
+    p5.erase();
+    drawLine(data);
+  },
+
+  bucket(data) {
+
+  }
+};
+
+export default Tools;

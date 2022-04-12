@@ -1,1 +1,1 @@
-export { LayersContainer } from './LayersContainer'
+export { default } from './LayersContainer'
