@@ -1,3 +1,4 @@
+import { Checkbox } from "@mui/material";
 import React from "react";
 
 const LayerOption = ({
@@ -15,6 +16,13 @@ const LayerOption = ({
     curCanvas.current.removeLayer(index);
   };
 
+  const handleVisible = () => {
+    const layers = curCanvas.current.getLayers();
+    layers[index].visible = !layers[index].visible;
+  };
+
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
   return (
     <div
       ref={preview}
@@ -28,7 +36,17 @@ const LayerOption = ({
       <p className="layers-list-name" onClick={() => setActiveL(index)}>
         {name}
       </p>
-      <i className="fa-solid fa-trash-can trash" onClick={handleDelete}></i>
+      <div class="layer-interact">
+        <Checkbox
+          {...label}
+          defaultChecked
+          onChange={handleVisible}
+          style={{padding: '0px'}}
+          size="small"
+          className="visible"
+        />
+        <i className="fa-solid fa-trash-can trash" onClick={handleDelete}></i>
+      </div>
     </div>
   );
 };

@@ -7,7 +7,10 @@ const HelpMenu = () => {
     ["Pencil", "P"],
     ["Eraser", "E"],
     ["Bucket", "B"],
-    ["Brush size", "+ -"]
+    ["Brush size", "+ -"],
+    ["New layer", "N"],
+    ["Remove last layer", "R"],
+    ["Change bg color", "C"]
   ];
 
   const style = {

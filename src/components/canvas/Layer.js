@@ -3,10 +3,12 @@ export default class Layer {
   id;
   p5;
   name;
+  visible;
 
   constructor({ p5, width, height, name }) {
     this.p5 = p5.createGraphics(width, height);
     this.name = name ?? `Default#${Layer.idcounter}`;
     this.id = Layer.idcounter++;
+    this.visible = true;
   }
 }
