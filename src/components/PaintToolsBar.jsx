@@ -16,6 +16,8 @@ const PaintToolsBar = ({
   setSize,
   activeTool,
   setActiveTool,
+  prevColor,
+  setPrevColor
 }) => {
   return (
     <>
@@ -24,6 +26,8 @@ const PaintToolsBar = ({
         color={color}
         setColor={setColor}
         curCanvas={curCanvas}
+        prevColor={prevColor}
+        setPrevColor={setPrevColor}
       />
       <ToolsContainer activeTool={activeTool} setActiveTool={setActiveTool} />
       <Slider
@@ -34,7 +38,11 @@ const PaintToolsBar = ({
       />
       <Button
         variant="contained"
-        onClick={() => curCanvas.current.changeBg(color)}
+        onClick={() => {
+          curCanvas.current.changeBg(color)
+          console.log(prevColor[1])
+          setColor(prevColor[1])
+        }}
         sx={{ width: 1 }}
       >
         Change bg color

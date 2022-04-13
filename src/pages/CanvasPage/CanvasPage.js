@@ -7,6 +7,7 @@ import Canvas from "../../components/Canvas";
 
 const CanvasPage = () => {
   const [color, setColor] = useState("#F0F0F0");
+  const [prevColor, setPrevColor] = useState([color, color]);
   const [size, setSize] = useState(5)
   const [activeTool, setActiveTool] = useState("pencil")
   const [layers, setLayers] = useState([]);
@@ -52,6 +53,8 @@ const CanvasPage = () => {
               setSize={setSize}
               activeTool={activeTool}
               setActiveTool={setActiveTool}
+              prevColor={prevColor}
+              setPrevColor={setPrevColor}
             />
           </Grid>
           <Grid item xs className="canvas-display center">

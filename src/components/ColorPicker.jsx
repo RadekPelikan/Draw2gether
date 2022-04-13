@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { ChromePicker as ColPicker } from "react-color";
 
-const ColorPicker = ({ color, setColor, curCanvas }) => {
-
+const ColorPicker = ({ color, setColor, prevColor, setPrevColor }) => {
   return (
     <ColPicker
       color={color}
       onChange={(color) => setColor(color.rgb)}
+      onChangeComplete={(newColor) =>
+        setPrevColor([newColor.rgb, prevColor[0]])
+      }
     />
   );
 };
