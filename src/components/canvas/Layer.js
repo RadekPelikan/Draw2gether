@@ -8,7 +8,5 @@ export default class Layer {
     this.p5 = p5.createGraphics(width, height);
     this.name = name ?? `Default#${Layer.idcounter}`;
     this.id = Layer.idcounter++;
-    // this.name = "bruh"
-    // this.id = 1
   }
 }

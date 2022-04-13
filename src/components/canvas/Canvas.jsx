@@ -22,6 +22,7 @@ const Canvas = forwardRef(
     width = width || 100;
     height = height || 100;
 
+    const [cursorLayer, setCursorLayser] = useState(null);
     const [background, setBackground] = useState(240);
     const [p5, setP5] = useState(null);
 
@@ -64,14 +65,29 @@ const Canvas = forwardRef(
       setP5(p5);
       p5.createCanvas(width, height).parent(canvasParentRef);
       createLayer(p5);
+      setCursorLayser(p5.createGraphics(width, height));
+    };
+
+    const renderCursor = () => {
+      const strokeWeight = Math.sqrt(size)
+      const edgeStroke = size + strokeWeight / 2
+      cursorLayer.strokeCap(p5.PROJECT);
+      cursorLayer.clear()
+      cursorLayer.noFill();
+      cursorLayer.stroke(0);
+      cursorLayer.strokeWeight(strokeWeight);
+      cursorLayer.arc(p5.mouseX, p5.mouseY, edgeStroke, edgeStroke, 0, p5.PI);
+      cursorLayer.stroke(255);
+      cursorLayer.arc(p5.mouseX, p5.mouseY, edgeStroke, edgeStroke, p5.PI, p5.TWO_PI);
     };
 
     const draw = (p5) => {
       p5.background(background);
+      renderCursor();
+
       if (layers.length === 0) return;
 
       const layer = layers[activeL].p5;
-
       if (p5.mouseIsPressed && p5.mouseButton === p5.LEFT) {
         const data = {
           p5: layer,
@@ -88,6 +104,7 @@ const Canvas = forwardRef(
         .slice(0)
         .reverse()
         .forEach((layer) => p5.image(layer.p5, 0, 0));
+      p5.image(cursorLayer, 0, 0);
     };
 
     return (

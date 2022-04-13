@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import HelpMenu from "../../components/HelpMenu";
 import PaintToolsBar from "../../components/PaintToolsBar";
 import { Container, Grid, Modal, Stack } from "@mui/material";
@@ -13,7 +13,6 @@ const CanvasPage = () => {
   const [layers, setLayers] = useState([]);
   const [activeL, setActiveL] = useState(0);
   const [openHelp, setOpenHelp] = useState(false);
-  const handleCloseHelp = () => setOpenHelp(false);
 
   const curCanvas = useRef(null);
 
@@ -24,6 +23,7 @@ const CanvasPage = () => {
   useKeypress("+", () => size < 100 && setSize(size + 5))
   useKeypress("-", () => size > 5 && setSize(size - 5))
 
+  const handleCloseHelp = () => setOpenHelp(false); 
   useKeypress("F1", () => setOpenHelp(!openHelp));
   useKeypress("Escape", () => setOpenHelp(false));
 
@@ -59,7 +59,7 @@ const CanvasPage = () => {
           </Grid>
           <Grid item xs className="canvas-display center">
             <Canvas
-              width={700}
+              width={1500}
               height={600}
               color={color}
               layers={layers}

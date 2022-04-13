@@ -40,7 +40,6 @@ const PaintToolsBar = ({
         variant="contained"
         onClick={() => {
           curCanvas.current.changeBg(color)
-          console.log(prevColor[1])
           setColor(prevColor[1])
         }}
         sx={{ width: 1 }}
