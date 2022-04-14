@@ -1,25 +1,13 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
+$layer-list-select: #63f96b;
 
 html {
-  -ms-overflow-style: none;
-  /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  /* for Firefox */
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
   overflow-y: scroll;
 }
 
 html::-webkit-scrollbar {
-  display: none;
-  /* for Chrome, Safari, and Opera */
+  display: none; /* for Chrome, Safari, and Opera */
 }
 
 .paint-toolbar {
@@ -27,15 +15,9 @@ html::-webkit-scrollbar {
 }
 
 .center {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .canvas-display {
@@ -47,8 +29,7 @@ html::-webkit-scrollbar {
   border: 1em solid grey;
   position: relative;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   width: 65vw;
   height: 80vh;
 }
@@ -62,27 +43,28 @@ html::-webkit-scrollbar {
   border: 2px black solid;
   margin-top: 10px;
 }
-
 .layers-list-name {
   width: 130px;
   margin: 0 0 0 1em;
   outline: none;
   border: none;
-  cursor: default;
+  cursor: default
+  // user-select: none;
 }
 
 .layers-list-name:focus {
   border: none;
+  // user-select: none;
 }
 
 #edit-name {
   background-color: #EEEEEE;
 }
 
+
 .drag {
   position: relative;
-  -webkit-transform: translateY(10px);
-          transform: translateY(10px);
+  transform: translateY(10px);
   float: left;
   cursor: ns-resize;
 }
@@ -111,11 +93,11 @@ html::-webkit-scrollbar {
 }
 
 .layers-list-selected {
-  background-color: #63f96b;
+  background-color: $layer-list-select;
 }
 
 .layers-list-selected .layers-list-name {
-  background-color: #63f96b;
+  background-color: $layer-list-select;
 }
 
 .icons-list-icon {
@@ -141,4 +123,3 @@ html::-webkit-scrollbar {
 .p5Canvas {
   cursor: none;
 }
-/*# sourceMappingURL=style.css.map */

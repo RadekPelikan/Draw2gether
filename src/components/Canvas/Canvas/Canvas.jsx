@@ -24,6 +24,8 @@ const Canvas = forwardRef(
     height = height || 100;
 
     const [background, setBackground] = useState(240);
+    const [drawPreview, setDrawPreview] = useState(true);
+    const [startingMouse, setStartingMouse] = useState(null);
     const [p5, setP5] = useState(null);
 
     useImperativeHandle(ref, () => ({
@@ -82,15 +84,30 @@ const Canvas = forwardRef(
 
     const draw = (p5) => {
       p5.background(background);
-      const layersTR = layers; // Additional layers, that won't be in the list of layers
+      let layersTR = layers; // Additional layers, that won't be in the list of layers
 
       const drawTool = (data) => {
-        console.log("tool");
         Tools[activeTool](data);
       };
 
       const drawGeometric = (data) => {
-        console.log("geometric");
+        layersTR = [
+          ...layersTR.slice(0, activeL),
+          p5.createGraphics(width, height),
+          ...layersTR.slice(activeL),
+        ];
+        data.p5 = layersTR[activeL]
+        // Tools[activeTool](data);
+        // switch (activeTool) {
+        //   case "line":
+        //     break;
+        //   case "rectangle":
+        //     break;
+        //   case "circle":
+        //     break;
+        // }
+        if (drawPreview) return;
+        console.log("done preview")
       };
 
       if (layers.length === 0) return;
@@ -115,8 +132,8 @@ const Canvas = forwardRef(
           pY: p5.pmouseY,
         };
         if (["pencil", "eraser"].includes(activeTool)) drawTool(data);
-        if (["line", "rectangle", "circle"].includes(activeTool))
-          drawGeometric(data);
+        // if (["line", "rectangle", "circle"].includes(activeTool))
+        //   drawGeometric(data);
       }
       layersTR
         .slice(0)
@@ -125,9 +142,13 @@ const Canvas = forwardRef(
       renderCursor(p5);
     };
 
+    const mouseReleased = (p5) => {
+      setDrawPreview(true);
+    };
+
     return (
       <ScrollContainer className="scroll-container center" buttons={[1]}>
-        <Sketch setup={setup} draw={draw} />
+        <Sketch setup={setup} draw={draw} mouseReleased={mouseReleased} />
       </ScrollContainer>
     );
   }

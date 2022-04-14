@@ -11,4 +11,8 @@ export default class Layer {
     this.id = Layer.idcounter++;
     this.visible = true;
   }
+
+  setName(name) {
+    this.name = name
+  } 
 }

@@ -10,7 +10,8 @@ const HelpMenu = () => {
     ["Brush size", "+ -"],
     ["New layer", "N"],
     ["Remove last layer", "R"],
-    ["Change bg color", "C"]
+    ["Change bg color", "C"],
+    ["Drag around canvas", "Middle mouse button"]
   ];
 
   const style = {
@@ -39,7 +40,7 @@ const HelpMenu = () => {
             spacing={0}
           >
             <Typography sx={{ mt: 0.5 }}>{desc}</Typography>
-            <Typography sx={{ mt: 0.5 }} style={{ width: "30%" }}>
+            <Typography sx={{ mt: 0.5 }} style={{ width: "40%" }}>
               {shorcut}
             </Typography>
           </Stack>

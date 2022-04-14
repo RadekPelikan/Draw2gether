@@ -3,7 +3,18 @@ import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "./ItemTypes.js";
 import LayerOption from "./LayerOption.jsx";
 
-const LayersItem = ({ id, name, index, moveCard, activeL, setActiveL, curCanvas }) => {
+const LayersItem = ({
+  id,
+  name,
+  card,
+  index,
+  moveCard,
+  activeL,
+  setActiveL,
+  curCanvas,
+  editingL,
+  setEditingL,
+}) => {
   const dragIcon = useRef(null);
 
   const [{ handlerId }, drop] = useDrop({
@@ -54,10 +65,13 @@ const LayersItem = ({ id, name, index, moveCard, activeL, setActiveL, curCanvas 
       handlerId={handlerId}
       dragIcon={dragIcon}
       name={name}
+      card={card}
       activeL={activeL}
       setActiveL={setActiveL}
       index={index}
       curCanvas={curCanvas}
+      editingL={editingL}
+      setEditingL={setEditingL}
     />
   );
 };

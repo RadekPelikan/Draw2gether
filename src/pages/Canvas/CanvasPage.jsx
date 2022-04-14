@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import HelpMenu from "../../components/HelpMenu";
-import PaintToolsBar from "../../components/PaintToolsBar";
+import HelpMenu from "../../components/Canvas/HelpMenu";
+import PaintToolsBar from "../../components/Canvas/PaintToolsBar";
 import { Container, Modal, Stack } from "@mui/material";
 import useKeypress from "react-use-keypress";
-import Canvas from "../../components/Canvas";
+import Canvas from "../../components/Canvas/Canvas";
 
 const CanvasPage = () => {
   const [color, setColor] = useState("#F0F0F0");
@@ -12,34 +12,38 @@ const CanvasPage = () => {
   const [activeTool, setActiveTool] = useState("pencil");
   const [layers, setLayers] = useState([]);
   const [activeL, setActiveL] = useState(0);
+  const [editingL, setEditingL] = useState(false);
 
   const [hover, setHover] = useState(false);
 
   const [openHelp, setOpenHelp] = useState(false);
 
   const curCanvas = useRef(null);
+  const handleCloseHelp = () => setOpenHelp(false);
 
-  useKeypress("p", () => setActiveTool("pencil"));
-  useKeypress("e", () => setActiveTool("eraser"));
-  useKeypress("b", () => setActiveTool("bucket"));
+  useKeypress("p", () => editingL || setActiveTool("pencil"));
+  useKeypress("e", () => editingL || setActiveTool("eraser"));
+  useKeypress("b", () => editingL || setActiveTool("bucket"));
 
   useKeypress("n", () => {
-    curCanvas.current.createLayer() 
-    setActiveL(0)
+    if (editingL) return
+    console.log(editingL)
+    curCanvas.current.createLayer();
+    setActiveL(0);
   });
-  useKeypress("r", () => curCanvas.current.removeLayer());
+  useKeypress("r", () => editingL || curCanvas.current.removeLayer());
 
   useKeypress("c", () => {
-    curCanvas.current.changeBg(color)
-    setColor(prevColor[1])
+    if (editingL) return
+    curCanvas.current.changeBg(color);
+    setColor(prevColor[1]);
   });
 
-  useKeypress("+", () => size < 100 && setSize(size + 5));
-  useKeypress("-", () => size > 5 && setSize(size - 5));
+  useKeypress("+", () => editingL || size < 100 && setSize(size + 5));
+  useKeypress("-", () => editingL ||  size > 5 && setSize(size - 5));
 
-  const handleCloseHelp = () => setOpenHelp(false);
-  useKeypress("F1", () => setOpenHelp(!openHelp));
-  useKeypress("Escape", () => setOpenHelp(false));
+  useKeypress("F1", () => editingL || setOpenHelp(!openHelp));
+  useKeypress("Escape", () => editingL || setOpenHelp(false));
 
   return (
     <>
@@ -69,6 +73,8 @@ const CanvasPage = () => {
               setActiveTool={setActiveTool}
               prevColor={prevColor}
               setPrevColor={setPrevColor}
+              editingL={editingL}
+              setEditingL={setEditingL}
             />
           </div>
 

@@ -1,5 +1,6 @@
-import { Checkbox } from "@mui/material";
-import React from "react";
+import { Checkbox, Input, TextField } from "@mui/material";
+import React, { useState } from "react";
+import LayerName from "./LayerName";
 
 const LayerOption = ({
   preview,
@@ -7,11 +8,27 @@ const LayerOption = ({
   handlerId,
   dragIcon,
   name,
+  card,
   activeL,
   setActiveL,
   index,
   curCanvas,
+  editingL,
+  setEditingL,
 }) => {
+  const [readOnly, setReadOnly] = useState(true);
+
+  const handleChangeL = (e) => {
+    setActiveL(index);
+    if (e.detail === 2) setReadOnly(false) || setEditingL(true);
+  };
+
+  const handleChangeName = (e) => {
+    if (e.target.value.length >= 18)
+      return (e.target.value = e.target.value.slice(0, -1));
+    card.setName(e.target.value);
+  };
+
   const handleDelete = () => {
     curCanvas.current.removeLayer(index);
   };
@@ -33,15 +50,20 @@ const LayerOption = ({
       data-handler-id={handlerId}
     >
       <i className="fa-solid fa-lg fa-bars drag" ref={dragIcon}></i>
-      <p className="layers-list-name" onClick={() => setActiveL(index)}>
-        {name}
-      </p>
-      <div class="layer-interact">
+      <LayerName
+        name={name}
+        handleChangeL={handleChangeL}
+        readOnly={readOnly}
+        setReadOnly={setReadOnly}
+        handleChangeName={handleChangeName}
+        setEditingL={setEditingL}
+      />
+      <div className="layer-interact">
         <Checkbox
           {...label}
           defaultChecked
           onChange={handleVisible}
-          style={{padding: '0px'}}
+          style={{ padding: "0px" }}
           size="small"
           className="visible"
         />

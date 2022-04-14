@@ -7,9 +7,9 @@ export const ToolsIcons = {
   pencil: "fa-paintbrush",
   eraser: "fa-eraser",
   bucket: "fa-fill-drip",
-  line: "fa-grip-lines",
-  rectangle: "fa-square",
-  circle: "fa-circle"
+  // line: "fa-grip-lines",
+  // rectangle: "fa-square",
+  // circle: "fa-circle"
 };
 
 const Tools = {
