@@ -56,8 +56,8 @@ const CanvasPage = () => {
         <HelpMenu />
       </Modal>
 
-      <Container>
-        <Stack direction="row" style={{ height: "100vh" }} spacing={2}>
+      <Container className="canvas-container">
+        <Stack direction="row" spacing={2}>
           <div className="paint-toolbar">
             <PaintToolsBar
               curCanvas={curCanvas}

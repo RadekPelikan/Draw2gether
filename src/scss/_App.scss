@@ -1,0 +1,10 @@
+@import "./Animation";
+$page-color: #0048b4;
+
+.App {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+  background-color: $page-color;
+  padding-top: 1em;
+}

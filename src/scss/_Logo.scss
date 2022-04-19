@@ -1,0 +1,30 @@
+$hover-color: #ffc965;
+
+.logo {
+  position: absolute;
+}
+
+.logo {
+  color: white;
+  top: 0px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 20px;
+  transition: outline 0.1s;
+  transition: color 1s;
+
+  &:focus-visible {
+    outline: 2px solid
+  }
+  &:hover {
+    color: $hover-color;
+  }
+}
+
+
+// @media only screen and (max-width: 600px) {
+@media (max-width: 1280px) {
+  .logo {
+    display: none;
+  }
+}

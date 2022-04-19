@@ -1,6 +1,11 @@
 $layer-list-select: #63f96b;
 
 html {
+  height: 100vh;
+  // overflow: hidden;
+}
+
+html {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
   overflow-y: scroll;
@@ -8,6 +13,10 @@ html {
 
 html::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
+}
+
+.canvas-container {
+  flex-grow: 1;
 }
 
 .paint-toolbar {
@@ -26,19 +35,20 @@ html::-webkit-scrollbar {
 }
 
 .canvas-wrapper {
-  border: 1em solid grey;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 65vw;
-  height: 80vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .scroll-container {
-  height: 80vh;
+  height: calc(100vh - 80px);
+  width: calc(100vw - 320px);
+  max-width: 1000px;
 }
 
 .layers-list-card {
+  background-color: white;
   padding: 0.5em;
   border: 2px black solid;
   margin-top: 10px;
@@ -48,8 +58,7 @@ html::-webkit-scrollbar {
   margin: 0 0 0 1em;
   outline: none;
   border: none;
-  cursor: default
-  // user-select: none;
+  cursor: default;
 }
 
 .layers-list-name:focus {
@@ -58,9 +67,8 @@ html::-webkit-scrollbar {
 }
 
 #edit-name {
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
-
 
 .drag {
   position: relative;
@@ -71,7 +79,8 @@ html::-webkit-scrollbar {
 
 .layer-interact {
   position: relative;
-  bottom: 10px;
+  bottom: 7px;
+  left: 5px;
   float: right;
 }
 
@@ -80,6 +89,7 @@ html::-webkit-scrollbar {
 }
 
 .visible {
+  bottom: 2px;
   padding: 0px;
 }
 

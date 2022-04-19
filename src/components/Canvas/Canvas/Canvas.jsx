@@ -96,7 +96,7 @@ const Canvas = forwardRef(
           p5.createGraphics(width, height),
           ...layersTR.slice(activeL),
         ];
-        data.p5 = layersTR[activeL]
+        data.p5 = layersTR[activeL];
         // Tools[activeTool](data);
         // switch (activeTool) {
         //   case "line":
@@ -107,7 +107,7 @@ const Canvas = forwardRef(
         //     break;
         // }
         if (drawPreview) return;
-        console.log("done preview")
+        console.log("done preview");
       };
 
       if (layers.length === 0) return;
@@ -147,7 +147,7 @@ const Canvas = forwardRef(
     };
 
     return (
-      <ScrollContainer className="scroll-container center" buttons={[1]}>
+      <ScrollContainer className="scroll-container" buttons={[1]}>
         <Sketch setup={setup} draw={draw} mouseReleased={mouseReleased} />
       </ScrollContainer>
     );

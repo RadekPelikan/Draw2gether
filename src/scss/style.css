@@ -9,6 +9,134 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+.fade-appear {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-appear .fade-appear-active {
+  opacity: 1;
+  -webkit-transition: opacity 300ms linear;
+  transition: opacity 300ms linear;
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter .fade-enter-active {
+  opacity: 1;
+  -webkit-transition: opacity 300ms linear;
+  transition: opacity 300ms linear;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit .fade-exit-active {
+  opacity: 0;
+  -webkit-transition: opacity 300ms linear;
+  transition: opacity 300ms linear;
+}
+
+.fade-exit-done {
+  opacity: 0;
+}
+
+.slide-exit {
+  opacity: 1;
+  -webkit-transform: scale(1) translateY(0);
+          transform: scale(1) translateY(0);
+}
+
+.slide-exit .slide-exit-active {
+  opacity: 0;
+  -webkit-transform: scale(0.97) translateY(5px);
+          transform: scale(0.97) translateY(5px);
+  -webkit-transition: opacity 150ms linear, -webkit-transform 150 ease-out;
+  transition: opacity 150ms linear, -webkit-transform 150 ease-out;
+  transition: opacity 150ms linear, transform 150 ease-out;
+  transition: opacity 150ms linear, transform 150 ease-out, -webkit-transform 150 ease-out;
+}
+
+.slide-exit-done {
+  opacity: 0;
+}
+
+.App {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  height: 100vh;
+  background-color: #0048b4;
+  padding-top: 1em;
+}
+
+.logo {
+  position: absolute;
+}
+
+.logo {
+  color: white;
+  top: 0px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 20px;
+  -webkit-transition: outline 0.1s;
+  transition: outline 0.1s;
+  -webkit-transition: color 1s;
+  transition: color 1s;
+}
+
+.logo:focus-visible {
+  outline: 2px solid;
+}
+
+.logo:hover {
+  color: #ffc965;
+}
+
+@media (max-width: 1280px) {
+  .logo {
+    display: none;
+  }
+}
+
+.card-icon {
+  position: relative;
+  bottom: 4px;
+  margin-right: 5px;
+}
+
+.card-info-wrapper {
+  margin-top: 1em;
+}
+
+.card-info-wrapper * {
+  display: inline;
+}
+
+.basket {
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.basket .hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html {
+  height: 100vh;
+}
+
 html {
   -ms-overflow-style: none;
   /* for Internet Explorer, Edge */
@@ -20,6 +148,12 @@ html {
 html::-webkit-scrollbar {
   display: none;
   /* for Chrome, Safari, and Opera */
+}
+
+.canvas-container {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
 }
 
 .paint-toolbar {
@@ -44,20 +178,27 @@ html::-webkit-scrollbar {
 }
 
 .canvas-wrapper {
-  border: 1em solid grey;
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  width: 65vw;
-  height: 80vh;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .scroll-container {
-  height: 80vh;
+  height: calc(100vh - 80px);
+  width: calc(100vw - 320px);
+  max-width: 1000px;
 }
 
 .layers-list-card {
+  background-color: white;
   padding: 0.5em;
   border: 2px black solid;
   margin-top: 10px;
@@ -76,7 +217,7 @@ html::-webkit-scrollbar {
 }
 
 #edit-name {
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
 
 .drag {
@@ -89,7 +230,8 @@ html::-webkit-scrollbar {
 
 .layer-interact {
   position: relative;
-  bottom: 10px;
+  bottom: 7px;
+  left: 5px;
   float: right;
 }
 
@@ -98,6 +240,7 @@ html::-webkit-scrollbar {
 }
 
 .visible {
+  bottom: 2px;
   padding: 0px;
 }
 
