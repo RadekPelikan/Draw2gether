@@ -84,8 +84,8 @@ const CanvasPage = () => {
             onMouseLeave={() => setHover(false)}
           >
             <Canvas
-              width={1500}
-              height={1200}
+              width={1}
+              height={1}
               color={color}
               layers={layers}
               setLayers={setLayers}
