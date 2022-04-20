@@ -146,57 +146,8 @@ const Canvas = forwardRef(
       setDrawPreview(true);
     };
 
-    const splitIndex = (value, index) => [
-      value.substring(0, index),
-      value.substring(index),
-    ];
-
-    const dec2bin = (dec) => {
-      let binS = (dec >>> 0).toString(2);
-      return splitIndex("0".repeat(8 - binS.length) + binS + "0", 6);
-    };
-
-    const converter64 = {
-      rixis: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
-      encode(b2) {
-        return this.rixis[parseInt(b2, 2)];
-      },
-      decode(b64) {},
-    };
-
-    const pixelsTo64 = () => {
-      const base64s = []
-      layers.forEach((layer) => {
-        let base64 = "";
-        layer.p5.loadPixels();
-        const pixels = [...layer.p5.pixels];
-        const N = pixels.length / (width * height * 4); // CUZ p5.pixels is somehouw scuffed
-        const partsChar = 2;
-        for (let i = 0; i < pixels.length; i += N * partsChar) {
-          const toConvert = pixels.slice(i, i + partsChar);
-          const b2s = [...dec2bin(toConvert[0]), ...dec2bin(toConvert[1])];
-          const b2sToConvert = [b2s[0], b2s[2], b2s[1] + b2s[3]];
-          b2sToConvert.forEach((item) => (base64 += converter64.encode(item)));
-        }
-        base64s.push(base64)
-      });
-      console.log(base64s)
-    };
-
-    const b64ToPixels = (base64) => {
-      const pixels = [];
-      base64.forEach((item) => {});
-    };
-
     return (
       <>
-        <button
-          onClick={() => {
-            pixelsTo64();
-          }}
-        >
-          Get pixels
-        </button>
         <ScrollContainer className="scroll-container" buttons={[1]}>
           <Sketch setup={setup} draw={draw} mouseReleased={mouseReleased} />
         </ScrollContainer>

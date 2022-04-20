@@ -7,9 +7,7 @@ import {
   Stack,
 } from "@mui/material";
 
-const Card = ({ room: { name, desc, users, locked, playerCount, maxPlayers } }) => {
-  playerCount = users.length ?? 0;
-  maxPlayers = maxPlayers ?? 0;
+const Card = ({ room: { name, desc, users, open, max } }) => {
   name = name ?? "Default name";
   desc = desc ?? "No description";
 
@@ -26,7 +24,7 @@ const Card = ({ room: { name, desc, users, locked, playerCount, maxPlayers } }) 
             <Typography variant="h5" display="inline" gutterBottom>
               {name}
             </Typography>
-            {!locked ? <i className="fa-solid fa-lock fa-lg"></i> : ""}
+            {!open && <i className="fa-solid fa-lock fa-lg"></i>}
           </Stack>
           <Typography variant="body2" color="text.secondary">
             {desc}
@@ -41,7 +39,7 @@ const Card = ({ room: { name, desc, users, locked, playerCount, maxPlayers } }) 
             <div>
               <i className="fa-solid fa-user fa-lg card-icon"></i>
               <Typography gutterBottom variant="h6">
-                {`${playerCount} / ${maxPlayers}`}
+                {max === -1 ? `${users.length}` : `${users.length} / ${max}`}
               </Typography>
             </div>
           </Stack>

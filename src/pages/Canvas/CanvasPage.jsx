@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import HelpMenu from "../../components/Canvas/HelpMenu";
 import PaintToolsBar from "../../components/Canvas/PaintToolsBar";
-import { Container, Modal, Stack } from "@mui/material";
+import { Button, Container, Modal, Stack } from "@mui/material";
 import useKeypress from "react-use-keypress";
 import Canvas from "../../components/Canvas/Canvas";
+import { SocketContext } from "../../Context/socket";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-const CanvasPage = () => {
+const CanvasPage = ({ room, user }) => {
   const [color, setColor] = useState("#F0F0F0");
   const [prevColor, setPrevColor] = useState([color, color]);
   const [size, setSize] = useState(5);
@@ -13,6 +15,10 @@ const CanvasPage = () => {
   const [layers, setLayers] = useState([]);
   const [activeL, setActiveL] = useState(0);
   const [editingL, setEditingL] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [admin, setAdmin] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [hover, setHover] = useState(false);
 
@@ -26,24 +32,39 @@ const CanvasPage = () => {
   useKeypress("b", () => editingL || setActiveTool("bucket"));
 
   useKeypress("n", () => {
-    if (editingL) return
-    console.log(editingL)
+    if (editingL) return;
     curCanvas.current.createLayer();
     setActiveL(0);
   });
   useKeypress("r", () => editingL || curCanvas.current.removeLayer());
 
   useKeypress("c", () => {
-    if (editingL) return
+    if (editingL) return;
     curCanvas.current.changeBg(color);
     setColor(prevColor[1]);
   });
 
-  useKeypress("+", () => editingL || size < 100 && setSize(size + 5));
-  useKeypress("-", () => editingL ||  size > 5 && setSize(size - 5));
+  useKeypress("+", () => editingL || (size < 100 && setSize(size + 5)));
+  useKeypress("-", () => editingL || (size > 5 && setSize(size - 5)));
 
   useKeypress("F1", () => editingL || setOpenHelp(!openHelp));
   useKeypress("Escape", () => editingL || setOpenHelp(false));
+
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    socket.emit("room:exists", { id });
+    socket.on("room:user-kick", () => {
+      navigate("/");
+    });
+    if (!room.id) navigate("/");
+  }, []);
+
+  useEffect(() => {
+    socket.emit("room:get-open", { user, room });
+    socket.on("room:get-open:done", () => setAdmin(true));
+    socket.on("room:switchOpen:done", ({ open }) => setOpen(open));
+  }, []);
 
   return (
     <>
@@ -57,6 +78,11 @@ const CanvasPage = () => {
       </Modal>
 
       <Container className="canvas-container">
+        {admin && (
+          <Button onClick={() => socket.emit("room:switch-open", { user, room })}>
+            {open ? "Lock" : "Open"}
+          </Button>
+        )}
         <Stack direction="row" spacing={2}>
           <div className="paint-toolbar">
             <PaintToolsBar
@@ -84,8 +110,8 @@ const CanvasPage = () => {
             onMouseLeave={() => setHover(false)}
           >
             <Canvas
-              width={1}
-              height={1}
+              width={1000}
+              height={1000}
               color={color}
               layers={layers}
               setLayers={setLayers}

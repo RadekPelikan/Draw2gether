@@ -26,7 +26,7 @@ const App = () => {
           element={<HomePage user={user} room={room} setRoom={setRoom} />}
         />
         <Route
-          path=":id"
+          path="room/:id"
           element={<CanvasPage user={user} room={room} setRoom={setRoom} />}
         />
       </Routes>

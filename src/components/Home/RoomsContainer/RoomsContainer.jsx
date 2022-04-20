@@ -1,14 +1,27 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { CanvasCard } from "../CanvasCard";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../../../Context/socket";
+import useKeypress from "react-use-keypress";
+import { Modal } from "@mui/material";
+import PasswordMenu from "./PasswordMenu";
 
 const RoomsContainer = ({ rooms, user, room, setRoom }) => {
   const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  const [openPasword, setOpenPasword] = useState(false);
+  const [toJoin, setToJoin] = useState(null);
+
+  const closePassword = () => setOpenPasword(false);
+  useKeypress("Escape", () => setOpenPasword(false));
+
+  
 
   const joinRoom = (id) => {
-    console.log(user);
+    const roomN = rooms.filter((item) => item.id === id)[0]
+    if (roomN.password) return setOpenPasword(true) && setToJoin(id);
     const data = {
       room: { id },
       user,
@@ -18,23 +31,31 @@ const RoomsContainer = ({ rooms, user, room, setRoom }) => {
 
   useEffect(() => {
     socket.on("room:user-join:done", ({ room }) => {
-      setRoom(room)
+      setRoom(room);
+      navigate(`/room/${room.id}`)
     });
+    socket.on("room:user-kick", () => {
+      navigate("/")
+    })
+    
   }, []);
 
   return (
     <>
+      <Modal
+        open={openPasword}
+        onClose={closePassword}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <PasswordMenu user={user} toJoin={toJoin} />
+      </Modal>
       <div className="rooms-container">
         {rooms.map((room, index) => (
           <div key={index}>
-            <Link
-              to={room.id + ""}
-              className="card"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-              onClick={() => joinRoom(room.id)}
-            >
+            <div onClick={() => joinRoom(room.id)}>
               <CanvasCard room={room} />
-            </Link>
+            </div>
           </div>
         ))}
       </div>
