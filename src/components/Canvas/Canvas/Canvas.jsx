@@ -1,8 +1,15 @@
-import React, { forwardRef, useState, useImperativeHandle } from "react";
+import React, {
+  forwardRef,
+  useState,
+  useImperativeHandle,
+  useContext,
+  useEffect,
+} from "react";
 import Sketch from "react-p5";
 import Tools from "./tools";
 import Layer from "./layer";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { SocketContext } from "../../../Context/socket";
 
 const Canvas = forwardRef(
   (
@@ -17,6 +24,8 @@ const Canvas = forwardRef(
       size,
       activeTool,
       hover,
+      room,
+      user,
     },
     ref
   ) => {
@@ -27,6 +36,7 @@ const Canvas = forwardRef(
     const [drawPreview, setDrawPreview] = useState(true);
     const [startingMouse, setStartingMouse] = useState(null);
     const [p5, setP5] = useState(null);
+    const socket = useContext(SocketContext);
 
     useImperativeHandle(ref, () => ({
       changeBg(color) {
@@ -34,18 +44,11 @@ const Canvas = forwardRef(
         setBackground(color);
       },
       createLayer() {
-        createLayer();
+        socket.emit("room:canvas:layer-create", { room, user });
       },
       removeLayer(index) {
-        if (layers.length === 0) return;
-        index = index ?? layers.length - 1;
-        if ((activeL == index || activeL == layers.length - 1) && activeL != 0)
-          setActiveL(--activeL);
-        const layer = layers[index].p5;
-        layer.remove();
-        const newLayers = layers.slice();
-        newLayers.splice(index, 1);
-        setLayers(newLayers);
+        const id = layers[index].id
+        socket.emit("room:canvas:layer-delete", {room, user, id});
       },
       getLayers() {
         return layers;
@@ -55,18 +58,33 @@ const Canvas = forwardRef(
       },
     }));
 
-    const createLayer = (p5l) => {
-      p5l = p5l || p5;
-      const newLayer = new Layer({ p5: p5l, width, height });
+    const createLayer = (id) => {
+      const newLayer = new Layer({ p5, width, height, id });
       newLayer.p5.clear();
-      setLayers([newLayer, ...layers]);
+      setLayers((prev) => {
+        const layerN = prev.filter((item) => item.id === newLayer.id)[0];
+        if (layerN !== undefined) return prev;
+        return [newLayer, ...prev];
+      });
       layers.length && setActiveL(++activeL);
+    };
+
+    const deletelLayer = (id) => {
+      let index = layers.findIndex((item) => item.id === id);
+      if (layers.length === 0) return;
+      index = index ?? layers.length - 1;
+      if ((activeL == index || activeL == layers.length - 1) && activeL != 0)
+        setActiveL(--activeL);
+      const layer = layers[index].p5;
+      layer.remove();
+      const newLayers = layers.slice();
+      newLayers.splice(index, 1);
+      setLayers(newLayers);
     };
 
     const setup = (p5, canvasParentRef) => {
       setP5(p5);
       p5.createCanvas(width, height).parent(canvasParentRef);
-      createLayer(p5);
     };
 
     const renderCursor = (p5) => {
@@ -82,13 +100,13 @@ const Canvas = forwardRef(
       p5.arc(p5.mouseX, p5.mouseY, edgeStroke, edgeStroke, p5.PI, p5.TWO_PI);
     };
 
+    const drawTool = (data) => {
+      Tools[data.activeTool](data);
+    };
+
     const draw = (p5) => {
       p5.background(background);
       let layersTR = layers; // Additional layers, that won't be in the list of layers
-
-      const drawTool = (data) => {
-        Tools[activeTool](data);
-      };
 
       const drawGeometric = (data) => {
         layersTR = [
@@ -107,12 +125,12 @@ const Canvas = forwardRef(
         //     break;
         // }
         if (drawPreview) return;
-        console.log("done preview");
       };
 
       if (layers.length === 0) return;
 
-      const layer = layersTR[activeL].p5;
+      const layer = layersTR[activeL]?.p5;
+      if (layer === undefined) return
       if (
         p5.mouseIsPressed &&
         p5.mouseButton === p5.LEFT &&
@@ -130,8 +148,12 @@ const Canvas = forwardRef(
           y: p5.mouseY,
           pX: p5.pmouseX,
           pY: p5.pmouseY,
+          activeTool,
+          activeL,
         };
         if (["pencil", "eraser"].includes(activeTool)) drawTool(data);
+        delete data.p5;
+        socket.emit("room:canvas:tool", { room, user, tool: data });
         // if (["line", "rectangle", "circle"].includes(activeTool))
         //   drawGeometric(data);
       }
@@ -145,6 +167,38 @@ const Canvas = forwardRef(
     const mouseReleased = (p5) => {
       setDrawPreview(true);
     };
+
+    useEffect(() => {
+      socket.off("room:canvas:tool:done");
+      socket.off("room:canvas:layer-create:done");
+      socket.off("room:canvas:layer-get:done");
+      socket.off("room:canvas:layer-delete:done");
+      socket.on("room:canvas:tool:done", ({ room, user, tool }) => {
+        tool.p5 = layers[tool.activeL].p5;
+        drawTool(tool);
+      });
+      socket.on("room:canvas:layer-create:done", ({ id }) => {
+        createLayer(id);
+      });
+      socket.on("room:canvas:layer-delete:done", ({ id }) => {
+        deletelLayer(id);
+      });
+      socket.on("room:get:done");
+      socket.on("room:canvas:layer-get:done", ({ layers }) => {
+        layers.forEach((layer) => {
+          createLayer(layer.id);
+        });
+      });
+      socket.on("room:canvas:layer-get:done", ({ layers }) => {
+        layers.forEach((layer) => {
+          createLayer(layer.id);
+        });
+      });
+    }, [layers, activeL, p5]);
+
+    useEffect(() => {
+      socket.emit("room:canvas:layer-get", { room, user });
+    }, []);
 
     return (
       <>

@@ -17,6 +17,8 @@ const CreateMenu = ({ closeCreate }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [max, setMax] = useState(-1);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   const socket = useContext(SocketContext);
 
   const createRoom = () => {
@@ -25,6 +27,7 @@ const CreateMenu = ({ closeCreate }) => {
       name,
       desc,
       max,
+      size: {width, height}
     };
     socket.emit("room:create", { room });
     closeCreate();
@@ -52,10 +55,29 @@ const CreateMenu = ({ closeCreate }) => {
           label="Max users"
           type="number"
           onChange={(e) => setMax(e.target.value)}
+          InputProps={{ inputProps: { min: 0 } }}
           InputLabelProps={{
             shrink: true,
           }}
         />
+        <Stack direction="row" spacing={2}>
+          <TextField
+            style={{ width: "100%" }}
+            variant="standard"
+            label="Width pixels"
+            type="number"
+            onChange={(e) => setWidth(e.target.value)}
+            InputProps={{ inputProps: { min: 0, max: 1000 } }}
+          />
+          <TextField
+            style={{ width: "100%" }}
+            variant="standard"
+            label="Height pixels"
+            type="number"
+            onChange={(e) => setHeight(e.target.value)}
+            InputProps={{ inputProps: { min: 0, max: 1000 } }}
+          />
+        </Stack>
         <Button variant="contained" onClick={createRoom}>
           Create
         </Button>

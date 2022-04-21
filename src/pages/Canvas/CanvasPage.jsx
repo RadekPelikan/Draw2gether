@@ -17,6 +17,9 @@ const CanvasPage = ({ room, user }) => {
   const [editingL, setEditingL] = useState(false);
   const [open, setOpen] = useState(true);
   const [admin, setAdmin] = useState(false);
+  const [showCanvas, setShowCanvas] = useState(false);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -57,13 +60,17 @@ const CanvasPage = ({ room, user }) => {
     socket.on("room:user-kick", () => {
       navigate("/");
     });
-    if (!room.id) navigate("/");
-  }, []);
-
-  useEffect(() => {
     socket.emit("room:get-open", { user, room });
     socket.on("room:get-open:done", () => setAdmin(true));
     socket.on("room:switchOpen:done", ({ open }) => setOpen(open));
+
+    socket.emit("room:get-size", { user, room });
+    socket.on("room:get-size:done", ({ width, height }) => {
+      setWidth(width || 1000);
+      setHeight(height || 1000);
+      setShowCanvas([0]);
+    });
+    if (!room.id) navigate("/");
   }, []);
 
   return (
@@ -79,7 +86,9 @@ const CanvasPage = ({ room, user }) => {
 
       <Container className="canvas-container">
         {admin && (
-          <Button onClick={() => socket.emit("room:switch-open", { user, room })}>
+          <Button
+            onClick={() => socket.emit("room:switch-open", { user, room })}
+          >
             {open ? "Lock" : "Open"}
           </Button>
         )}
@@ -109,19 +118,23 @@ const CanvasPage = ({ room, user }) => {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
-            <Canvas
-              width={1000}
-              height={1000}
-              color={color}
-              layers={layers}
-              setLayers={setLayers}
-              activeL={activeL}
-              setActiveL={setActiveL}
-              size={size}
-              activeTool={activeTool}
-              hover={hover}
-              ref={curCanvas}
-            />
+            {showCanvas && (
+              <Canvas
+                width={width}
+                height={height}
+                color={color}
+                layers={layers}
+                setLayers={setLayers}
+                activeL={activeL}
+                setActiveL={setActiveL}
+                size={size}
+                activeTool={activeTool}
+                hover={hover}
+                room={room}
+                user={user}
+                ref={curCanvas}
+              />
+            )}
           </div>
         </Stack>
       </Container>

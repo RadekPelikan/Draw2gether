@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { Logo } from "./components";
-import { HomePage, CanvasPage } from "./pages";
+import { HomePage, CanvasPage, ErrorPage } from "./pages";
 import { SocketContext } from "./Context/socket";
 
 const App = () => {
@@ -28,6 +28,10 @@ const App = () => {
         <Route
           path="room/:id"
           element={<CanvasPage user={user} room={room} setRoom={setRoom} />}
+        />
+        <Route
+          path="*"
+          element={<ErrorPage/>}
         />
       </Routes>
     </div>

@@ -23,14 +23,6 @@ const HomePage = ({ user, room, setRoom }) => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
 
-  const joinRoom = (id) => {
-    const data = {
-      room: { id },
-      user,
-    };
-    socket.emit("room:user-join", data);
-  };
-
   useEffect(() => {
     socket.on("room:get:done", (data) => {
       setRooms(data.rooms);
@@ -39,12 +31,15 @@ const HomePage = ({ user, room, setRoom }) => {
     socket.on("room:create:done", (data) => {
       setRooms(data.rooms);
     });
-    socket.on("room:create:done:join", ({ rooms }) => {
-      const data = {
-        room: { id: rooms[rooms.length - 1].id },
-        user,
-      };
-      socket.emit("room:user-join", data);
+
+    socket.on("user:created", ({ user }) => {
+      socket.on("room:create:done:join", ({ rooms }) => {
+        const data = {
+          room: { id: rooms[rooms.length - 1].id },
+          user,
+        };
+        socket.emit("room:user-join", data);
+      });
     });
     socket.on("room:user-join:done", ({ room }) => {
       setRoom(room);
