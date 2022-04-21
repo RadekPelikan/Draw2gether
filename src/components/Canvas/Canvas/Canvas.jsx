@@ -35,6 +35,7 @@ const Canvas = forwardRef(
     const [background, setBackground] = useState(240);
     const [drawPreview, setDrawPreview] = useState(true);
     const [startingMouse, setStartingMouse] = useState(null);
+    const [prevLayers, setPrevLayers] = useState(layers);
     const [p5, setP5] = useState(null);
     const socket = useContext(SocketContext);
 
@@ -47,8 +48,8 @@ const Canvas = forwardRef(
         socket.emit("room:canvas:layer-create", { room, user });
       },
       removeLayer(index) {
-        const id = layers[index].id
-        socket.emit("room:canvas:layer-delete", {room, user, id});
+        const id = layers[index].id;
+        socket.emit("room:canvas:layer-delete", { room, user, id });
       },
       getLayers() {
         return layers;
@@ -130,7 +131,7 @@ const Canvas = forwardRef(
       if (layers.length === 0) return;
 
       const layer = layersTR[activeL]?.p5;
-      if (layer === undefined) return
+      if (layer === undefined) return;
       if (
         p5.mouseIsPressed &&
         p5.mouseButton === p5.LEFT &&
@@ -173,6 +174,7 @@ const Canvas = forwardRef(
       socket.off("room:canvas:layer-create:done");
       socket.off("room:canvas:layer-get:done");
       socket.off("room:canvas:layer-delete:done");
+      socket.off("room:canvas:layer-move:done");
       socket.on("room:canvas:tool:done", ({ room, user, tool }) => {
         tool.p5 = layers[tool.activeL].p5;
         drawTool(tool);
@@ -189,16 +191,32 @@ const Canvas = forwardRef(
           createLayer(layer.id);
         });
       });
-      socket.on("room:canvas:layer-get:done", ({ layers }) => {
-        layers.forEach((layer) => {
-          createLayer(layer.id);
-        });
+      socket.on("room:canvas:layer-move:done", ({ indexes }) => {
+        const layersN = layers;
+        const c = layersN[indexes[0]];
+        layersN[indexes[0]] = layersN[indexes[1]];
+        layersN[indexes[1]] = c;
+        setLayers(layersN);
       });
     }, [layers, activeL, p5]);
 
     useEffect(() => {
       socket.emit("room:canvas:layer-get", { room, user });
     }, []);
+
+    useEffect(() => {
+      if (layers.length !== prevLayers.length) return setPrevLayers(layers);
+
+      const idsL = layers.map((layer) => ({ id: layer.id }));
+      const idsP = prevLayers.map((layer) => ({ id: layer.id }));
+      const indexes = idsL
+        .map((item, index) => (item.id === idsP[index].id ? "" : index))
+        .filter((item) => item !== "");
+      socket.emit("room:canvas:layer-move", { room, user, indexes });
+      setPrevLayers(layers);
+    }, [layers]);
+
+    // [b[indexes[0]], b[indexes[1]]] = [b[indexes[1]], b[indexes[0]]];
 
     return (
       <>
