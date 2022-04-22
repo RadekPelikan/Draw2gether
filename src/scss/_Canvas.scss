@@ -133,3 +133,33 @@ html::-webkit-scrollbar {
 .p5Canvas {
   cursor: none;
 }
+
+.canvas-server-info {
+  display: flex;
+  gap: 1em;
+  margin: .25em 0
+}
+
+.users-container {
+  display: flex;
+  gap: 1em;
+}
+
+.user-card {
+  background-color: rgba(29, 145, 217, 0.803);
+  border-radius: 10px;
+  text-align: center;
+  min-width: 4em;
+}
+
+.user-card.this {
+  background-color: #63f96b;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 4em;
+}
+
+.user-card-id {
+  font-size: 0.6em;
+  color: #333;
+}

@@ -6,6 +6,7 @@ import useKeypress from "react-use-keypress";
 import Canvas from "../../components/Canvas/Canvas";
 import { SocketContext } from "../../Context/socket";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import UsersContainer from "../../components/Canvas/UsersContainer/UsersContainer";
 
 const CanvasPage = ({ room, user }) => {
   const [color, setColor] = useState("#F0F0F0");
@@ -85,13 +86,16 @@ const CanvasPage = ({ room, user }) => {
       </Modal>
 
       <Container className="canvas-container">
-        {admin && (
-          <Button
-            onClick={() => socket.emit("room:switch-open", { user, room })}
-          >
-            {open ? "Lock" : "Open"}
-          </Button>
-        )}
+        <div className="canvas-server-info">
+          {admin && (
+            <Button
+              onClick={() => socket.emit("room:switch-open", { user, room })}
+            >
+              {open ? "Lock" : "Open"}
+            </Button>
+          )}
+          <UsersContainer room={room} user={user}/>
+        </div>
         <Stack direction="row" spacing={2}>
           <div className="paint-toolbar">
             <PaintToolsBar

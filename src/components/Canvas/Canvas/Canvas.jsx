@@ -42,7 +42,8 @@ const Canvas = forwardRef(
     useImperativeHandle(ref, () => ({
       changeBg(color) {
         color = [color.r, color.g, color.b];
-        setBackground(color);
+        socket.emit("room:canvas:color", { room, user, color });
+        setBackground(color)
       },
       createLayer() {
         socket.emit("room:canvas:layer-create", { room, user });
@@ -175,6 +176,7 @@ const Canvas = forwardRef(
       socket.off("room:canvas:layer-get:done");
       socket.off("room:canvas:layer-delete:done");
       socket.off("room:canvas:layer-move:done");
+      socket.off("room:canvas:color:done");
       socket.on("room:canvas:tool:done", ({ room, user, tool }) => {
         tool.p5 = layers[tool.activeL].p5;
         drawTool(tool);
@@ -198,15 +200,18 @@ const Canvas = forwardRef(
         layersN[indexes[1]] = c;
         setLayers(layersN);
       });
+      socket.on("room:canvas:color:done", ({color}) => {
+        setBackground(color)
+      });
     }, [layers, activeL, p5]);
 
     useEffect(() => {
       socket.emit("room:canvas:layer-get", { room, user });
+      socket.emit("room:canvas:color", { room, user });
     }, []);
 
     useEffect(() => {
       if (layers.length !== prevLayers.length) return setPrevLayers(layers);
-
       const idsL = layers.map((layer) => ({ id: layer.id }));
       const idsP = prevLayers.map((layer) => ({ id: layer.id }));
       const indexes = idsL
@@ -215,8 +220,6 @@ const Canvas = forwardRef(
       socket.emit("room:canvas:layer-move", { room, user, indexes });
       setPrevLayers(layers);
     }, [layers]);
-
-    // [b[indexes[0]], b[indexes[1]]] = [b[indexes[1]], b[indexes[0]]];
 
     return (
       <>
