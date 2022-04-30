@@ -43,6 +43,7 @@ const PaintToolsBar = ({
       />
       <Button
         variant="contained"
+        color="success"
         onClick={() => {
           curCanvas.current.changeBg(color);
           setColor(prevColor[1]);
@@ -53,6 +54,7 @@ const PaintToolsBar = ({
       </Button>
       <Button
         variant="contained"
+        color="success"
         onClick={() => curCanvas.current.createLayer()}
         sx={{ width: 1 }}
       >

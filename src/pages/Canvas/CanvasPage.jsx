@@ -1,7 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import HelpMenu from "../../components/Canvas/HelpMenu";
 import PaintToolsBar from "../../components/Canvas/PaintToolsBar";
-import { Button, Container, Modal, Stack } from "@mui/material";
+import {
+  Button,
+  Container,
+  Divider,
+  Modal,
+  Stack,
+  Tooltip,
+} from "@mui/material";
 import useKeypress from "react-use-keypress";
 import Canvas from "../../components/Canvas/Canvas";
 import { SocketContext } from "../../Context/socket";
@@ -88,13 +95,23 @@ const CanvasPage = ({ room, user }) => {
       <Container className="canvas-container">
         <div className="canvas-server-info">
           {admin && (
-            <Button
-              onClick={() => socket.emit("room:switch-open", { user, room })}
-            >
-              {open ? "Lock" : "Open"}
-            </Button>
+            <>
+              <Tooltip title={`Click to ${open ? "lock" : "open"}`}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() =>
+                    socket.emit("room:switch-open", { user, room })
+                  }
+                >
+                  {open ? "Opened" : "Locked"}
+                </Button>
+              </Tooltip>
+
+              <Divider orientation="vertical" flexItem />
+            </>
           )}
-          <UsersContainer room={room} user={user}/>
+          <UsersContainer room={room} user={user} />
         </div>
         <Stack direction="row" spacing={2}>
           <div className="paint-toolbar">

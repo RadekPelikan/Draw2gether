@@ -6,6 +6,3 @@
 
 - P - Pencil
 - E - Eraser
-- B - Bucket (TBD)
-
-ScrollWheel for changing brush size

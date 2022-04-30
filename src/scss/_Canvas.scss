@@ -10,7 +10,8 @@ html {
 .paint-toolbar {
   width: 225px;
   padding: 10px;
-  background-color: rgb(23, 112, 172);
+  background-color: rgba(241, 241, 241, 0.349);
+  border-radius: 15px;
   & > * {
     margin-bottom: 10px;
   }
@@ -111,7 +112,7 @@ html {
 }
 
 .icons-list-icon:hover {
-  background-color: #c9c9c9;
+  background-color: #ffffffc5;
   cursor: pointer;
 }
 

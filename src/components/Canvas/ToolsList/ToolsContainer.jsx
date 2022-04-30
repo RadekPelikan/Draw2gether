@@ -5,17 +5,17 @@ import Icon from "./Icon";
 
 const ToolsContainer = ({ activeTool, setActiveTool }) => {
   return (
-    <Grid container spacing={2}>
-      {Object.entries(ToolsIcons).map((element, index) => (
-        <Grid item xs={6} key={index}>
+    <>
+      <div className="tools-container">
+        {Object.entries(ToolsIcons).map((element, index) => (
           <Icon
             icon={element}
             activeTool={activeTool}
             setActiveTool={setActiveTool}
           />
-        </Grid>
-      ))}
-    </Grid>
+        ))}
+      </div>
+    </>
   );
 };
 
