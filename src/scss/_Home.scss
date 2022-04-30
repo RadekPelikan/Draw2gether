@@ -27,3 +27,9 @@
     pointer-events:none;
   }
 }
+
+.rooms-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
