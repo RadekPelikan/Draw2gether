@@ -7,7 +7,7 @@ const ToolsContainer = ({ activeTool, setActiveTool }) => {
   return (
     <Grid container spacing={2}>
       {Object.entries(ToolsIcons).map((element, index) => (
-        <Grid item xs={3} key={index}>
+        <Grid item xs={6} key={index}>
           <Icon
             icon={element}
             activeTool={activeTool}

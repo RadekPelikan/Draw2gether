@@ -1,7 +1,6 @@
 import React from "react";
 
 const UserCard = ({ item, user }) => {
-  console.log(item.id, user.id)
   return (
     <>
       <div className={`user-card ${user.id === item.id ? "this" : ""}`}>

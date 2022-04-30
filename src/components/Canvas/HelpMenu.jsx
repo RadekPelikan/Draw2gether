@@ -4,9 +4,8 @@ import { Box, Typography, Stack } from "@mui/material";
 const HelpMenu = () => {
   const helpArr = [
     ["This menu", "F1"],
-    ["Pencil", "P"],
+    ["Brush", "P"],
     ["Eraser", "E"],
-    ["Bucket", "B"],
     ["Brush size", "+ -"],
     ["New layer", "N"],
     ["Remove last layer", "R"],

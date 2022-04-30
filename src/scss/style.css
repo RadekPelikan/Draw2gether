@@ -134,20 +134,7 @@ code {
 }
 
 html {
-  height: 100vh;
-}
-
-html {
-  -ms-overflow-style: none;
-  /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  /* for Firefox */
-  overflow-y: scroll;
-}
-
-html::-webkit-scrollbar {
-  display: none;
-  /* for Chrome, Safari, and Opera */
+  overflow: hidden;
 }
 
 .canvas-container {
@@ -158,6 +145,12 @@ html::-webkit-scrollbar {
 
 .paint-toolbar {
   width: 225px;
+  padding: 10px;
+  background-color: #1770ac;
+}
+
+.paint-toolbar > * {
+  margin-bottom: 10px;
 }
 
 .center {

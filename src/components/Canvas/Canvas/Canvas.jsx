@@ -152,6 +152,7 @@ const Canvas = forwardRef(
           pY: p5.pmouseY,
           activeTool,
           activeL,
+          canvSize: {width, height}
         };
         if (["pencil", "eraser"].includes(activeTool)) drawTool(data);
         delete data.p5;
