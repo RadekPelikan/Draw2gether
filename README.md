@@ -13,7 +13,7 @@ To run this app you need to download both repositories, this one and **[Backend 
 
 ## Keyboard shortcuts
 
-Inside room press `F1` see keyboard shortcuts
+Inside room press `F1` to see keyboard shortcuts
 
 | Shortcut | Action                  |
 | -------- | ----------------------- |
