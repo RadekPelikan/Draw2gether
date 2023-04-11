@@ -4,9 +4,9 @@ Simple online drawing app. You can draw with your friends in real time. You can 
 
 To run this app you need to download both repositories, this one and **[Backend repository](https://github.com/RadekPelikan/year_project-Socket.io-server)**
 
-**You can see word document with more information about project in docs folder.**
+**You can see PDF document with more information about project in docs folder.**
 
-- [Word document](./docs/Documentation%20CZECH.docx)
+- [PDF document](./docs/Documentation%20CZECH.pdf)
 - [Powerpoint presentation](./docs/Presentation%20CZECH.pptx)
 
 ![Title image](./docs/img/title%20image.png)
