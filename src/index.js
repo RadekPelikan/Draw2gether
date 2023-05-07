@@ -1,43 +1,32 @@
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import { SocketContext, socket } from "./Context/socket";
-import App from "./App";
-import "./scss/style.css";
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const morgan = require("morgan");
+const path = require("path");
+require("dotenv").config();
 
-const container = document.getElementById("root");
-const root = createRoot(container);
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+const PORT = process.env.PORT || 3001;
 
-root.render(
-  <BrowserRouter>
-    <SocketContext.Provider value={socket}>
-      <App tab="home" />
-    </SocketContext.Provider>
-  </BrowserRouter>
-);
+const socketEvents = require("./socket")
 
-/*
-import React from "react";
-import { Provider } from "react-redux";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import * as serviceWorker from "./serviceWorker";
+app.use(morgan("dev"));
+app.use(express.json());
 
-import { store } from "Redux/store";
-import {SocketContext, socket} from 'Context/socket';
-import App from "./App";
+app.use(express.static('public'))
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <SocketContext.Provider value={socket}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SocketContext.Provider>
-    </Provider>
-  </React.StrictMode>
-);
+app.get("/*", (req, res) => {
+  if (req.path === "/") return
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
+socketEvents(io)
 
-serviceWorker.unregister();
-*/
+server.listen(PORT, () => {
+  console.log(`App is running on ${PORT}`);
+});
