@@ -83,7 +83,6 @@ module.exports = (io) => {
       roomEvents.userJoin({ socket, rooms, room, users, user });
       io.emit("room:get:done", { rooms });
       const roomN = rooms.filter((item) => item.id === room.id)[0];
-      canvEvents.layerCreate({ rooms, room: roomN });
       socket
         .to(room.id)
         .emit("room:user-join:done", { room, users: roomN.users });
