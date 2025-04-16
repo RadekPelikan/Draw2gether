@@ -13,6 +13,7 @@ const App = () => {
   useEffect(() => {
     socket.on("user:created", ({ user }) => {
       setUser(user);
+      console.log(process.env.REACT_APP_SERVER_IP);
     });
   }, []);
 
@@ -29,10 +30,7 @@ const App = () => {
           path="room/:id"
           element={<CanvasPage user={user} room={room} setRoom={setRoom} />}
         />
-        <Route
-          path="*"
-          element={<ErrorPage/>}
-        />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );
